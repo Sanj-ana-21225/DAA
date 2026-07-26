@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+
+float findSum(float a[], int n) {
+    float sum = 0;
+    for (int i = 0; i < n; i++) {
+        sum += a[i];
+    }
+    return sum;
+}
+
+float findAverage(float sum, int n) {
+    return sum / n;
+}
+
+int main() {
+    int n;
+    float a[100], sum, average;
+
+    cout << "Enter the number of elements: ";
+    cin >> n;
+
+    cout << "Enter " << n << " numbers:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    sum = findSum(a, n);
+    average = findAverage(sum, n);
+
+    cout << "Sum of n numbers: " << sum << endl;
+    cout << "Average of numbers:" << average << endl;
+
+    return 0;
+}
