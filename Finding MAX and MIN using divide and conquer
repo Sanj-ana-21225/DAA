@@ -1,0 +1,71 @@
+#include <iostream>
+using namespace std;
+struct Result
+{
+    int max;
+    int min;
+};
+
+Result MaxMin(int A[], int low, int high)
+{
+    Pair r, left, right;
+    int mid;
+
+    if (low == high)
+    {
+        r.max = A[low];
+        r.min = A[low];
+        return r;
+    }
+    if (high == low + 1)
+    {
+        if (A[low] > A[high])
+        {
+            r.max = A[low];
+            r.min = A[high];
+        }
+        else
+        {
+            r.max = A[high];
+            r.min = A[low];
+        }
+        return r;
+    }
+    mid = (low + high) / 2;
+
+    left = MaxMin(A, low, mid);
+    right = MaxMin(A, mid + 1, high);
+
+    if (left.max > right.max)
+        r.max = left.max;
+    else
+        r.max = right.max;
+
+    if (left.min < right.min)
+        r.min = left.min;
+    else
+        r.min = right.min;
+
+    return r;
+}
+
+int main()
+{
+    int n;
+
+    cout << "Enter number of elements: ";
+    cin >> n;
+
+    int A[n];
+
+    cout << "Enter array elements: ";
+    for (int i = 0; i < n; i++)
+        cin >> A[i];
+
+    Result R = MaxMin(A, 0, n - 1);
+
+    cout << "Maximum element = " << R.max << endl;
+    cout << "Minimum element = " << R.min << endl;
+
+    return 0;
+}
