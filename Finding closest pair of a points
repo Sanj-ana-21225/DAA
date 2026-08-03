@@ -1,0 +1,75 @@
+#include <iostream>
+#include <cmath>
+#include <algorithm>
+using namespace std;
+struct Point
+{
+    int x;
+    int y;
+};
+float distance(Point p1, Point p2)
+{
+    return sqrt((p1.x - p2.x) * (p1.x - p2.x) +
+                (p1.y - p2.y) * (p1.y - p2.y));
+}
+float bruteForce(Point P[], int n)
+{
+    float minDist = 99999;
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            minDist = min(minDist, distance(P[i], P[j]));
+        }
+    }
+
+    return minDist;
+}
+float closestPair(Point P[], int n)
+{
+    if (n <= 3)
+        return bruteForce(P, n);
+
+    int mid = n / 2;
+
+    Point left[mid];
+    Point right[n - mid];
+
+    for (int i = 0; i < mid; i++)
+        left[i] = P[i];
+
+    for (int i = mid; i < n; i++)
+        right[i - mid] = P[i];
+
+    float dl = closestPair(left, mid);
+    float dr = closestPair(right, n - mid);
+
+    return min(dl, dr);
+}
+
+int main()
+{
+    int n;
+    cout << "Enter number of points: ";
+    cin >> n;
+
+    Point P[n];
+
+    cout << "Enter x and y :\n";
+    for (int i = 0; i < n; i++)
+    {
+        cin >> P[i].x >> P[i].y;
+    }
+
+    sort(P, P + n, [](Point a, Point b)
+    {
+        return a.x < b.x;
+    });
+
+    float result = closestPair(P, n);
+
+    cout << "Minimum distance = " << result;
+
+    return 0;
+}
